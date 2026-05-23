@@ -1,0 +1,158 @@
+<script setup>
+import HeroSection from '@/components/home/HeroSection.vue'
+import DirectionCard from '@/components/cards/DirectionCard.vue'
+import ArticleCard from '@/components/cards/ArticleCard.vue'
+import ToolCard from '@/components/cards/ToolCard.vue'
+import ProjectCard from '@/components/cards/ProjectCard.vue'
+import SectionHeading from '@/components/common/SectionHeading.vue'
+import MacroMapPreview from '@/components/macro/MacroMapPreview.vue'
+import { articles, directions, projects, tools, tradingResearch } from '@/data/mock'
+</script>
+
+<template>
+  <HeroSection />
+
+  <section id="directions" class="content-section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="方向"
+        title="四个持续构建的方向"
+        description="将工程方法、可用工具、交易思考和宏观视野组织成可积累的知识产品。"
+      />
+      <div class="direction-grid">
+        <DirectionCard v-for="direction in directions" :key="direction.title" :direction="direction" />
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section content-section--muted">
+    <div class="container">
+      <SectionHeading eyebrow="随笔" title="最新文章" link-text="查看工程实践" link-to="/engineering" />
+      <div class="grid grid--three">
+        <ArticleCard v-for="article in articles.slice(0, 3)" :key="article.slug" :article="article" />
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="工具"
+        title="精选工具"
+        description="针对日常开发、数据处理和风险管理的高频需求。"
+        link-text="全部工具"
+        link-to="/tools"
+      />
+      <div class="grid grid--three">
+        <ToolCard v-for="tool in tools" :key="tool.name" :tool="tool" />
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section content-section--muted">
+    <div class="container">
+      <SectionHeading
+        eyebrow="宏观"
+        title="宏观地图预览"
+        description="用全球视角跟踪数据变化，为研究与交易判断提供上下文。"
+        link-text="进入宏观地图"
+        link-to="/macro"
+      />
+      <MacroMapPreview />
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="container research-layout">
+      <div>
+        <SectionHeading eyebrow="交易" title="交易研究" link-text="更多研究" link-to="/trading" />
+        <div class="research-list">
+          <router-link
+            v-for="study in tradingResearch"
+            :key="study.slug"
+            class="research-item glass-card"
+            to="/trading"
+          >
+            <span class="market">{{ study.market }}</span>
+            <div>
+              <p class="study-type">{{ study.type }} / {{ study.date }}</p>
+              <h3>{{ study.title }}</h3>
+            </div>
+          </router-link>
+        </div>
+      </div>
+      <div>
+        <SectionHeading eyebrow="项目" title="实战项目" link-text="查看项目" link-to="/projects" />
+        <div class="grid grid--two project-mini-grid">
+          <ProjectCard v-for="project in projects.slice(0, 4)" :key="project.title" :project="project" />
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<style scoped>
+.direction-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.research-layout {
+  display: grid;
+  grid-template-columns: 0.86fr 1.2fr;
+  gap: 48px;
+}
+
+.research-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.research-item {
+  display: flex;
+  align-items: center;
+  gap: 19px;
+  min-height: 98px;
+  padding: 21px 22px;
+}
+
+.market {
+  min-width: 70px;
+  color: var(--ls-text-muted);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+}
+
+.study-type {
+  margin-bottom: 6px;
+  color: var(--ls-text-muted);
+  font-size: 12px;
+}
+
+.research-item h3 {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.project-mini-grid :deep(.project) {
+  min-height: 188px;
+}
+
+@media (max-width: 1060px) {
+  .direction-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .research-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .direction-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

@@ -1,0 +1,311 @@
+<script setup>
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { Close, Grid, Menu, Moon, MoreFilled, Search, Sunny } from '@element-plus/icons-vue'
+import { useRoute } from 'vue-router'
+import { useTheme } from '@/composables/useTheme'
+
+const drawerOpen = ref(false)
+const scrolled = ref(false)
+const route = useRoute()
+const { isNight, toggleTheme } = useTheme()
+const isHeroCover = computed(() => route.name === 'home' && !scrolled.value)
+const navItems = [
+  { name: '首页', to: '/' },
+  { name: '工程实践', to: '/engineering' },
+  { name: '在线工具箱', to: '/tools' },
+  { name: '交易研究', to: '/trading' },
+  { name: '宏观地图', to: '/macro' },
+  { name: '实战项目', to: '/projects' },
+  { name: '关于', to: '/about' }
+]
+
+function updateScrollState() {
+  scrolled.value = window.scrollY > 12
+}
+
+onMounted(() => {
+  updateScrollState()
+  window.addEventListener('scroll', updateScrollState, { passive: true })
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', updateScrollState)
+})
+</script>
+
+<template>
+  <header class="site-header" :class="{ 'hero-cover': isHeroCover }">
+    <nav class="hao-nav" aria-label="主导航">
+      <div class="nav-group">
+        <div class="nav-left">
+          <button class="nav-icon app-entry" type="button" aria-label="站点菜单">
+            <el-icon><Grid /></el-icon>
+          </button>
+          <router-link class="site-name" to="/" aria-label="LogicStack 首页">
+            <span class="brand-bracket brand-bracket--left">[</span>
+            <span class="brand-text">LogicStack</span>
+            <span class="brand-bracket">]</span>
+          </router-link>
+        </div>
+
+        <div class="nav-menu">
+          <router-link v-for="item in navItems" :key="item.to" class="site-page" :to="item.to">
+            {{ item.name }}
+          </router-link>
+        </div>
+
+        <div class="nav-right">
+          <button
+            class="nav-icon"
+            type="button"
+            :title="isNight ? '切换到白天模式' : '切换到黑夜模式'"
+            :aria-label="isNight ? '切换到白天模式' : '切换到黑夜模式'"
+            @click="toggleTheme"
+          >
+            <el-icon><Sunny v-if="isNight" /><Moon v-else /></el-icon>
+          </button>
+          <button class="nav-icon desktop-tool" type="button" title="站内搜索" aria-label="站内搜索">
+            <el-icon><Search /></el-icon>
+          </button>
+          <button class="nav-icon desktop-tool" type="button" title="更多" aria-label="更多">
+            <el-icon><MoreFilled /></el-icon>
+          </button>
+          <button class="nav-icon mobile-trigger" type="button" aria-label="打开导航" @click="drawerOpen = true">
+            <el-icon><Menu /></el-icon>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <el-drawer v-model="drawerOpen" direction="rtl" size="78%" :show-close="false" class="mobile-drawer">
+    <template #header>
+      <div class="drawer-head">
+        <span class="drawer-brand">[ LogicStack ]</span>
+        <button type="button" aria-label="关闭导航" @click="drawerOpen = false">
+          <el-icon><Close /></el-icon>
+        </button>
+      </div>
+    </template>
+    <nav class="mobile-nav" aria-label="手机导航">
+      <router-link v-for="item in navItems" :key="item.to" :to="item.to" @click="drawerOpen = false">
+        {{ item.name }}
+      </router-link>
+      <button class="drawer-theme" type="button" @click="toggleTheme">
+        <el-icon><Sunny v-if="isNight" /><Moon v-else /></el-icon>
+        {{ isNight ? '白天模式' : '黑夜模式' }}
+      </button>
+    </nav>
+  </el-drawer>
+</template>
+
+<style scoped>
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 90;
+  width: 100%;
+  height: 60px;
+  border-bottom: 1px solid var(--ls-border);
+  background: rgba(10, 16, 21, 0.82);
+  backdrop-filter: blur(12px);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html[data-theme="day"]) .site-header:not(.hero-cover) {
+  background: rgba(247, 246, 242, 0.86);
+}
+
+.site-header.hero-cover {
+  border-bottom-color: transparent;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.hao-nav,
+.nav-group {
+  height: 100%;
+}
+
+.nav-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: min(1400px, 100%);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.nav-left,
+.nav-right {
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.nav-left {
+  gap: 4px;
+}
+
+.site-name {
+  display: inline-flex;
+  align-items: center;
+  height: 35px;
+  padding: 0 8px;
+  border-radius: 8px;
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.brand-text {
+  background: linear-gradient(90deg, #e44296 0%, #ad7ddb 54%, #6cd7e8 100%);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.brand-bracket {
+  color: #71d5e6;
+  margin-left: 4px;
+}
+
+.brand-bracket--left {
+  color: #e44296;
+  margin: 0 4px 0 0;
+}
+
+.nav-menu {
+  position: absolute;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 60px;
+  pointer-events: none;
+}
+
+.nav-menu .site-page {
+  display: inline-flex;
+  align-items: center;
+  height: 35px;
+  margin: auto clamp(7px, 1.15vw, 16px);
+  padding: 0 0.7rem;
+  border-radius: 8px;
+  color: var(--ls-nav-text);
+  font-size: 16.8px;
+  font-weight: 700;
+  letter-spacing: 0.3rem;
+  pointer-events: auto;
+  transition: color 0.3s ease, background 0.3s ease;
+}
+
+.nav-menu .site-page:hover,
+.nav-menu .router-link-active {
+  color: var(--ls-nav-text-strong);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.nav-right {
+  gap: 8px;
+  margin-left: auto;
+}
+
+.nav-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border: 0;
+  border-radius: 40px;
+  color: var(--ls-nav-text);
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.3s ease, background 0.3s ease;
+}
+
+.nav-icon:hover,
+.site-name:hover {
+  color: var(--ls-nav-text-strong);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.mobile-trigger {
+  display: none;
+}
+
+.drawer-head {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.drawer-brand {
+  color: var(--ls-text);
+  font-weight: 600;
+}
+
+.drawer-head button {
+  border: 0;
+  color: var(--ls-text);
+  background: none;
+  font-size: 20px;
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-nav a,
+.drawer-theme {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 4px;
+  border: 0;
+  border-bottom: 1px solid var(--ls-border);
+  color: var(--ls-text-secondary);
+  background: transparent;
+}
+
+.mobile-nav .router-link-active {
+  color: var(--ls-text);
+}
+
+:global(.mobile-drawer) {
+  background: var(--ls-bg-soft);
+}
+
+@media (max-width: 1100px) {
+  .nav-menu .site-page {
+    margin-inline: 2px;
+    padding-inline: 0.45rem;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 900px) {
+  .nav-group {
+    padding: 0 12px;
+  }
+
+  .app-entry,
+  .nav-menu,
+  .desktop-tool {
+    display: none;
+  }
+
+  .mobile-trigger {
+    display: inline-flex;
+  }
+
+  .site-name {
+    font-size: 16px;
+  }
+}
+</style>

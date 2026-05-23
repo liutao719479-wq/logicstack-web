@@ -1,0 +1,55 @@
+:root {
+  --ls-bg: #0a1015;
+  --ls-bg-soft: #10171d;
+  --ls-surface: rgba(18, 26, 32, 0.46);
+  --ls-surface-strong: #151e25;
+  --ls-border: rgba(206, 214, 217, 0.09);
+  --ls-border-active: rgba(206, 214, 217, 0.2);
+  --ls-text: #edf0ef;
+  --ls-text-secondary: #a6afb1;
+  --ls-text-muted: #727d80;
+  --ls-primary: #b5c2c4;
+  --ls-primary-soft: #d6dcda;
+  --ls-blue: #748e98;
+  --ls-gold: #ae9270;
+  --ls-danger: #b36f66;
+  --ls-radius-lg: 16px;
+  --ls-radius-md: 12px;
+  --ls-radius-sm: 10px;
+  --ls-shadow: 0 18px 48px rgba(0, 0, 0, 0.14);
+  --ls-container: min(1120px, calc(100% - 56px));
+  --ls-header-height: 60px;
+  --ls-nav-text: rgba(255, 255, 255, 0.7);
+  --ls-nav-text-strong: rgba(255, 255, 255, 0.92);
+
+  --el-color-primary: #aab8bb;
+  --el-bg-color: #10171d;
+  --el-bg-color-overlay: #151e25;
+  --el-fill-color-blank: #151e25;
+  --el-text-color-primary: #edf0ef;
+  --el-text-color-regular: #a6afb1;
+  --el-border-color: rgba(206, 214, 217, 0.11);
+}
+
+:root[data-theme="day"] {
+  --ls-bg: #f2f1ed;
+  --ls-bg-soft: #ebe9e3;
+  --ls-surface: rgba(255, 255, 255, 0.48);
+  --ls-surface-strong: #f7f6f2;
+  --ls-border: rgba(50, 55, 57, 0.08);
+  --ls-border-active: rgba(50, 55, 57, 0.17);
+  --ls-text: #252c30;
+  --ls-text-secondary: #5e696d;
+  --ls-text-muted: #889093;
+  --ls-primary: #4e6065;
+  --ls-primary-soft: #34454b;
+  --ls-nav-text: rgba(255, 255, 255, 0.74);
+  --ls-nav-text-strong: rgba(255, 255, 255, 0.94);
+
+  --el-bg-color: #f2f1ed;
+  --el-bg-color-overlay: #f7f6f2;
+  --el-fill-color-blank: #f7f6f2;
+  --el-text-color-primary: #252c30;
+  --el-text-color-regular: #5e696d;
+  --el-border-color: rgba(50, 55, 57, 0.12);
+}
