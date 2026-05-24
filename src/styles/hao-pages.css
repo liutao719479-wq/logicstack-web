@@ -16,6 +16,10 @@
 .hao-inner-main {
   min-height: 100vh;
   color: var(--text-primary);
+  background: transparent;
+}
+
+:root[data-theme='day'] .hao-inner-main {
   background: var(--page-bg);
 }
 
@@ -31,7 +35,7 @@
 }
 
 .hao-inner-header.is-scrolled {
-  border-bottom: 1px solid rgba(218, 222, 224, 0.08);
+  border-bottom: 1px solid var(--border-color);
   background: rgba(12, 17, 23, 0.7);
   backdrop-filter: blur(16px);
 }
@@ -170,7 +174,7 @@
   min-width: 128px;
   margin: 0;
   padding: 6px 4px;
-  border: 1px solid rgba(213, 219, 222, 0.075);
+  border: 1px solid var(--border-color);
   border-radius: 14px;
   background: rgba(14, 20, 26, 0.44);
   box-shadow: 0 9px 24px rgba(0, 0, 0, 0.11);
@@ -288,6 +292,36 @@
   margin: 0 auto;
 }
 
+.hao-channel-container {
+  width: min(1340px, calc(100% - 64px));
+}
+
+.hao-channel-section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 12px;
+}
+
+.hao-channel-section-header h2 {
+  color: var(--text-primary);
+  font-size: 25px;
+  font-weight: 430;
+}
+
+.hao-channel-section-header span {
+  color: var(--ls-text-muted);
+  font-size: 12px;
+}
+
+.hao-editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  row-gap: 24px;
+  column-gap: clamp(32px, 5vw, 68px);
+}
+
 .hao-page .page-intro {
   max-width: 720px;
   margin-bottom: 40px;
@@ -310,14 +344,17 @@
 .hao-page .glass-card,
 .hao-page-card,
 .hao-section-card {
-  border: 1px solid var(--border-color);
-  background: var(--card-bg);
+  border: 1px solid var(--glass-card-border);
+  border-radius: 12px;
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 12px 34px rgba(0, 0, 0, 0.08);
 }
 
 .hao-page .glass-card:hover {
-  border-color: var(--border-color-strong);
-  background: var(--card-bg-hover);
+  border-color: var(--glass-card-border-hover);
+  background: var(--glass-card-bg-hover);
 }
 
 .hao-page .grid {
@@ -338,6 +375,10 @@
 
 .site-footer {
   border-top-color: var(--border-color) !important;
+  background: transparent !important;
+}
+
+:root[data-theme='day'] .site-footer {
   background: var(--page-bg) !important;
 }
 
@@ -380,5 +421,13 @@
 
   .hao-page-container {
     width: calc(100% - 32px);
+  }
+
+  .hao-channel-container {
+    width: calc(100% - 32px);
+  }
+
+  .hao-editorial-grid {
+    grid-template-columns: 1fr;
   }
 }

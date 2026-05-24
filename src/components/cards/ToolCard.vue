@@ -16,6 +16,9 @@ defineProps({ tool: { type: Object, required: true } })
 
 <style scoped>
 .tool-card {
+  display: flex;
+  min-height: 210px;
+  flex-direction: column;
   padding: 25px 23px;
 }
 
@@ -46,6 +49,7 @@ p {
 }
 
 .launch {
+  margin-top: auto;
   border: 1px solid var(--ls-border);
   border-radius: 999px;
   padding: 6px 13px;

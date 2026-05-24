@@ -13,10 +13,31 @@ body {
   min-width: 320px;
   color: var(--ls-text);
   background: var(--ls-bg);
-  font-family: "PingFang SC", "Noto Serif SC", "Microsoft YaHei", Arial, sans-serif;
+  font-family: var(--font-sans);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   transition: color 0.35s ease, background-color 0.35s ease;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-sans);
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+a,
+label,
+li {
+  font-family: inherit;
 }
 
 a {
@@ -103,21 +124,18 @@ button {
 }
 
 .glass-card {
-  border: 1px solid transparent;
-  background: var(--ls-surface);
-  border-radius: var(--ls-radius-md);
-  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-card-border);
+  background: var(--glass-card-bg);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
 }
 
 .glass-card:hover {
   transform: translateY(-2px);
-  border-color: var(--ls-border-active);
-  background: rgba(25, 33, 39, 0.6);
-}
-
-:root[data-theme="day"] .glass-card:hover {
-  background: rgba(255, 255, 255, 0.78);
+  border-color: var(--glass-card-border-hover);
+  background: var(--glass-card-bg-hover);
 }
 
 .text-link {
@@ -141,7 +159,7 @@ button {
   display: inline-flex;
   align-items: center;
   padding: 4px 10px;
-  border: 1px solid rgba(206, 214, 217, 0.08);
+  border: 1px solid var(--border-color);
   border-radius: 999px;
   color: var(--ls-text-secondary);
   font-size: 12px;

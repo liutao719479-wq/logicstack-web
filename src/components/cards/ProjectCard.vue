@@ -15,7 +15,9 @@ defineProps({ project: { type: Object, required: true } })
 
 <style scoped>
 .project {
+  display: flex;
   min-height: 178px;
+  flex-direction: column;
   padding: 25px 23px;
 }
 
@@ -41,5 +43,6 @@ p {
 .stack {
   display: flex;
   gap: 7px;
+  margin-top: auto;
 }
 </style>

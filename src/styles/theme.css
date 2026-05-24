@@ -1,9 +1,10 @@
 :root {
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --page-bg: #030303;
   --card-bg: #080808;
   --card-bg-hover: #101010;
   --text-primary: #edf0ef;
-  --text-secondary: #a6afb1;
+  --text-secondary: #9ca3af;
   --border-color: rgba(255, 255, 255, 0.08);
   --border-color-strong: rgba(255, 255, 255, 0.17);
   --muted-bg: rgba(255, 255, 255, 0.04);
@@ -11,15 +12,19 @@
   --input-bg: rgba(255, 255, 255, 0.035);
   --code-bg: #050608;
   --code-text: #d8e1e3;
+  --glass-card-bg: rgba(30, 30, 30, 0.5);
+  --glass-card-bg-hover: rgba(40, 40, 40, 0.7);
+  --glass-card-border: rgba(255, 255, 255, 0.06);
+  --glass-card-border-hover: rgba(255, 255, 255, 0.15);
   --ls-bg: #0a1015;
   --ls-bg-soft: #10171d;
   --ls-surface: rgba(18, 26, 32, 0.46);
   --ls-surface-strong: #151e25;
-  --ls-border: rgba(206, 214, 217, 0.09);
+  --ls-border: rgba(255, 255, 255, 0.08);
   --ls-border-active: rgba(206, 214, 217, 0.2);
   --ls-text: #edf0ef;
-  --ls-text-secondary: #a6afb1;
-  --ls-text-muted: #727d80;
+  --ls-text-secondary: #9ca3af;
+  --ls-text-muted: #9ca3af;
   --ls-primary: #b5c2c4;
   --ls-primary-soft: #d6dcda;
   --ls-blue: #748e98;
@@ -39,8 +44,8 @@
   --el-bg-color-overlay: #151e25;
   --el-fill-color-blank: #151e25;
   --el-text-color-primary: #edf0ef;
-  --el-text-color-regular: #a6afb1;
-  --el-border-color: rgba(206, 214, 217, 0.11);
+  --el-text-color-regular: #9ca3af;
+  --el-border-color: rgba(255, 255, 255, 0.08);
 }
 
 :root[data-theme="day"] {
@@ -56,6 +61,10 @@
   --input-bg: #f4f6f8;
   --code-bg: #f1f4f8;
   --code-text: #273748;
+  --glass-card-bg: rgba(255, 255, 255, 0.78);
+  --glass-card-bg-hover: rgba(255, 255, 255, 0.94);
+  --glass-card-border: rgba(28, 37, 48, 0.08);
+  --glass-card-border-hover: rgba(28, 37, 48, 0.15);
   --ls-bg: #f2f1ed;
   --ls-bg-soft: #ebe9e3;
   --ls-surface: rgba(255, 255, 255, 0.48);

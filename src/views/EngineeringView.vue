@@ -1,7 +1,10 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import ArticleCard from '@/components/cards/ArticleCard.vue'
+import CategoryTabs from '@/components/content/CategoryTabs.vue'
+import EditorialArticleCard from '@/components/content/EditorialArticleCard.vue'
+import FeaturedArticle from '@/components/content/FeaturedArticle.vue'
+import InnerPageHeader from '@/components/content/InnerPageHeader.vue'
 import { engineeringArticles, engineeringCategories } from '@/data/articles'
 
 const route = useRoute()
@@ -12,6 +15,8 @@ const visibleArticles = computed(() =>
     ? engineeringArticles.filter((article) => article.categoryKey === activeCategory.value)
     : engineeringArticles
 )
+const featuredArticle = computed(() => visibleArticles.value[0])
+const archiveArticles = computed(() => visibleArticles.value.slice(1))
 
 function selectCategory(value) {
   router.replace({ path: '/engineering', query: value ? { category: value } : {} })
@@ -19,51 +24,40 @@ function selectCategory(value) {
 </script>
 
 <template>
-  <section class="page-shell hao-page">
-    <div class="container hao-page-container">
-      <header class="page-intro">
-        <span class="page-kicker">工程随笔</span>
-        <h1 class="page-title">工程实践</h1>
-        <p class="page-description">沉淀数据开发、数据治理、后端服务与前端数据产品中的工程方法。</p>
-      </header>
-      <div class="filters" aria-label="文章分类">
-        <button
-          v-for="filter in engineeringCategories"
-          :key="filter.value"
-          :class="{ active: activeCategory === filter.value }"
-          type="button"
-          @click="selectCategory(filter.value)"
-        >
-          {{ filter.label }}
-        </button>
-      </div>
-      <div class="grid grid--three">
-        <ArticleCard v-for="article in visibleArticles" :key="article.slug" :article="article" />
-      </div>
+  <section class="page-shell hao-page editorial-channel-page">
+    <div class="container hao-page-container hao-channel-container">
+      <InnerPageHeader
+        kicker="工程随笔"
+        title="工程实践"
+        description="沉淀数据开发、数仓建模与交付过程中的方法，把复杂链路整理成可复用的经验。"
+      >
+        <CategoryTabs
+          :items="engineeringCategories"
+          :active-value="activeCategory"
+          label="工程实践分类"
+          @select="selectCategory"
+        />
+      </InnerPageHeader>
+
+      <FeaturedArticle
+        v-if="featuredArticle"
+        :article="featuredArticle"
+        eyebrow="重点阅读"
+      />
+
+      <section v-if="archiveArticles.length" class="channel-archive">
+        <header class="hao-channel-section-header">
+          <h2>{{ activeCategory ? '相关内容' : '最近更新' }}</h2>
+          <span>{{ archiveArticles.length }} 篇记录</span>
+        </header>
+        <div class="hao-editorial-grid">
+          <EditorialArticleCard
+            v-for="article in archiveArticles"
+            :key="article.slug"
+            :article="article"
+          />
+        </div>
+      </section>
     </div>
   </section>
 </template>
-
-<style scoped>
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-bottom: 34px;
-}
-
-.filters button {
-  padding: 8px 18px;
-  border: 1px solid var(--ls-border);
-  border-radius: 999px;
-  color: var(--ls-text-secondary);
-  background: var(--muted-bg);
-  cursor: pointer;
-}
-
-.filters .active {
-  border-color: var(--border-color-strong);
-  color: var(--ls-primary-soft);
-  background: var(--active-bg);
-}
-</style>

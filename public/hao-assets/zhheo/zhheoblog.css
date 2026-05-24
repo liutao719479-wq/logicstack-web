@@ -96,7 +96,7 @@
     --heo-hovertext: #0A84FF;
     --heo-ahoverbg: #fff;
     --heo-lighttext: var(--heo-theme);
-    --heo-secondtext: #a1a2b8;
+    --heo-secondtext: #9CA3AF;
     --heo-scrollbar: rgba(200, 200, 223, 0.4);
     --heo-card-btn-bg: #30343f;
     --heo-post-blockquote-bg: #000;
@@ -108,7 +108,7 @@
     --heo-card-bg-none: #1d1b2600;
     --heo-shadow-lightblack: 0 5px 12px -5px rgba(102, 68, 68, 0);
     --heo-shadow-light2black: 0 5px 12px -5px rgba(102, 68, 68, 0);
-    --heo-card-border: #3d3d3f;
+    --heo-card-border: rgba(255, 255, 255, 0.08);
     --heo-shadow-border: 0 8px 16px -4px #00000050;
     --style-border: 1px solid var(--heo-card-border);
     --style-border-always: 1px solid var(--heo-card-border);
@@ -6106,7 +6106,7 @@ div#footer_deal {
 
 div#poem_sentence {
     text-align: center;
-    font-family: serif, cursive;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     line-height: 1.4;
     margin-bottom: 0.5rem;
     padding: 1rem;

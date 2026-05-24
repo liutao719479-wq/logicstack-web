@@ -1,8 +1,11 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import ArticleCard from '@/components/cards/ArticleCard.vue'
-import ToolCard from '@/components/cards/ToolCard.vue'
+import CategoryTabs from '@/components/content/CategoryTabs.vue'
+import EditorialArticleCard from '@/components/content/EditorialArticleCard.vue'
+import FeaturedArticle from '@/components/content/FeaturedArticle.vue'
+import InnerPageHeader from '@/components/content/InnerPageHeader.vue'
+import TextToolCard from '@/components/content/TextToolCard.vue'
 import { tradingArticles, tradingCategories } from '@/data/articles'
 import { tradingTools } from '@/data/tools'
 
@@ -20,6 +23,8 @@ const visibleArticles = computed(() => {
   }
   return tradingArticles.filter((article) => article.categoryKey === activeCategory.value)
 })
+const featuredArticle = computed(() => visibleArticles.value[0])
+const archiveArticles = computed(() => visibleArticles.value.slice(1))
 
 function selectCategory(value) {
   router.replace({ path: '/trading', query: value ? { category: value } : {} })
@@ -27,25 +32,22 @@ function selectCategory(value) {
 </script>
 
 <template>
-  <section class="page-shell hao-page">
-    <div class="container hao-page-container">
-      <header class="page-intro">
-        <span class="page-kicker">市场手记</span>
-        <h1 class="page-title">市场研究</h1>
-        <p class="page-description">记录市场结构、执行过程与风险管理，关注能够重复验证的判断。</p>
-      </header>
-      <div class="market-row" aria-label="市场研究分类">
-        <button
-          v-for="category in tradingCategories"
-          :key="category.value"
-          :class="{ active: activeCategory === category.value }"
-          type="button"
-          @click="selectCategory(category.value)"
-        >
-          {{ category.label }}
-        </button>
-      </div>
-      <router-link v-if="showMacroEntry" class="macro-entry glass-card" to="/macro">
+  <section class="page-shell hao-page editorial-channel-page">
+    <div class="container hao-page-container hao-channel-container">
+      <InnerPageHeader
+        kicker="MARKET NOTES"
+        title="市场研究"
+        description="记录宏观观察、指标策略、订单流与交易执行，关注能够被复核的风险边界。"
+      >
+        <CategoryTabs
+          :items="tradingCategories"
+          :active-value="activeCategory"
+          label="市场研究分类"
+          @select="selectCategory"
+        />
+      </InnerPageHeader>
+
+      <router-link v-if="showMacroEntry" class="macro-entry" to="/macro">
         <div>
           <span class="page-kicker">全球趋势</span>
           <h2>宏观地图</h2>
@@ -53,32 +55,34 @@ function selectCategory(value) {
         </div>
         <span class="macro-action">查看地图 &gt;</span>
       </router-link>
-      <div v-if="showArticles" class="trading-layout">
-        <div>
-          <div class="subsection-title">
-            <span class="page-kicker">研究文章</span>
-            <h2>观点与复盘</h2>
-          </div>
-          <div class="entries">
-            <ArticleCard v-for="study in visibleArticles" :key="study.slug" :article="study" />
+
+      <section v-if="showArticles && featuredArticle" class="trading-research">
+        <FeaturedArticle :article="featuredArticle" eyebrow="重点研究" />
+        <div v-if="archiveArticles.length">
+          <header class="hao-channel-section-header">
+            <h2>{{ activeCategory ? '相关研究' : '市场观察' }}</h2>
+            <span>{{ archiveArticles.length }} 篇记录</span>
+          </header>
+          <div class="hao-editorial-grid">
+            <EditorialArticleCard
+              v-for="study in archiveArticles"
+              :key="study.slug"
+              :article="study"
+            />
           </div>
         </div>
-        <aside class="principles glass-card">
-          <span class="page-kicker">复盘框架</span>
-          <h2>研究框架</h2>
-          <p>市场上下文</p>
-          <p>计划与风险预算</p>
-          <p>执行记录与偏差</p>
-          <p>复盘结论与改进</p>
-        </aside>
-      </div>
+      </section>
+
       <section v-if="showTools" class="trading-tools" :class="{ 'is-primary': activeCategory === 'trading-tools' }">
-        <header class="trading-tools-heading">
-          <span class="page-kicker">交易工具</span>
-          <h2>风险与执行辅助</h2>
+        <header class="hao-channel-section-header trading-tools-heading">
+          <div>
+            <span class="page-kicker">交易工具</span>
+            <h2>风险与执行辅助</h2>
+          </div>
+          <p>仅作为前端入口预览</p>
         </header>
-        <div class="grid grid--three">
-          <ToolCard v-for="tool in tradingTools" :key="tool.name" :tool="tool" />
+        <div class="market-tool-grid">
+          <TextToolCard v-for="tool in tradingTools" :key="tool.name" :tool="tool" />
         </div>
       </section>
     </div>
@@ -86,42 +90,15 @@ function selectCategory(value) {
 </template>
 
 <style scoped>
-.market-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-bottom: 33px;
-}
-
-.market-row button {
-  padding: 8px 16px;
-  border: 1px solid var(--ls-border);
-  border-radius: 999px;
-  color: var(--ls-text-secondary);
-  background: var(--muted-bg);
-  cursor: pointer;
-}
-
-.market-row .active {
-  border-color: var(--border-color-strong);
-  color: var(--ls-primary-soft);
-  background: var(--active-bg);
-}
-
-.trading-layout {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  align-items: start;
-  gap: 24px;
-}
-
 .macro-entry {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 34px;
-  padding: 24px 27px;
+  gap: clamp(24px, 5vw, 56px);
+  margin-bottom: clamp(48px, 6vw, 68px);
+  padding: 27px 0 29px;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .macro-entry .page-kicker {
@@ -130,62 +107,25 @@ function selectCategory(value) {
 
 .macro-entry h2 {
   margin-bottom: 8px;
-  font-size: 23px;
-  font-weight: 400;
+  color: var(--text-primary);
+  font-size: 25px;
+  font-weight: 430;
 }
 
 .macro-entry p {
   max-width: 620px;
-  color: var(--ls-text-secondary);
+  color: var(--text-secondary);
   font-size: 14px;
 }
 
 .macro-action {
   flex: none;
-  color: var(--ls-text-secondary);
-  font-size: 14px;
-}
-
-.entries {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.subsection-title {
-  margin-bottom: 18px;
-}
-
-.subsection-title .page-kicker {
-  margin-bottom: 5px;
-}
-
-.subsection-title h2 {
-  font-size: 23px;
-  font-weight: 400;
-}
-
-.principles {
-  position: sticky;
-  top: calc(var(--ls-header-height) + 28px);
-  padding: 27px;
-}
-
-.principles h2 {
-  margin-bottom: 21px;
-  font-size: 22px;
-  font-weight: 400;
-}
-
-.principles p {
-  border-top: 1px solid var(--ls-border);
-  padding: 13px 0;
-  color: var(--ls-text-secondary);
+  color: var(--text-secondary);
   font-size: 14px;
 }
 
 .trading-tools {
-  margin-top: 52px;
+  margin-top: clamp(66px, 8vw, 92px);
 }
 
 .trading-tools.is-primary {
@@ -193,12 +133,23 @@ function selectCategory(value) {
 }
 
 .trading-tools-heading {
-  margin-bottom: 22px;
+  margin-bottom: 10px;
 }
 
-.trading-tools-heading h2 {
-  font-size: 22px;
-  font-weight: 400;
+.trading-tools-heading .page-kicker {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.trading-tools-heading p {
+  color: var(--ls-text-muted);
+  font-size: 12px;
+}
+
+.market-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: clamp(30px, 4vw, 54px);
 }
 
 @media (max-width: 820px) {
@@ -207,16 +158,8 @@ function selectCategory(value) {
     flex-direction: column;
   }
 
-  .trading-layout {
+  .market-tool-grid {
     grid-template-columns: 1fr;
-  }
-
-  .entries {
-    grid-template-columns: 1fr;
-  }
-
-  .principles {
-    position: static;
   }
 }
 </style>

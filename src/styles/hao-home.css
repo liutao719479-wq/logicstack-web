@@ -1,7 +1,7 @@
 .hao-home {
   --hao-white: rgba(255, 255, 255, 0.92);
   --hao-light-grey: rgba(255, 255, 255, 0.74);
-  --hao-border: rgba(113, 123, 133, 0.13);
+  --hao-border: rgba(255, 255, 255, 0.08);
   --hao-card-bg: rgba(255, 255, 255, 0.028);
   --hao-card-hover: rgba(255, 255, 255, 0.047);
   color: var(--ls-text);
@@ -146,7 +146,7 @@
   min-width: 128px;
   margin: 0;
   padding: 6px 4px;
-  border: 1px solid rgba(255, 255, 255, 0.075);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
   background: rgba(18, 23, 29, 0.43);
   box-shadow: 0 9px 24px rgba(0, 0, 0, 0.11);

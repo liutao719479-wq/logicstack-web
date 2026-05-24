@@ -1,7 +1,9 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import ToolCard from '@/components/cards/ToolCard.vue'
+import CategoryTabs from '@/components/content/CategoryTabs.vue'
+import InnerPageHeader from '@/components/content/InnerPageHeader.vue'
+import TextToolCard from '@/components/content/TextToolCard.vue'
 import { toolCategories, tools } from '@/data/tools'
 
 const route = useRoute()
@@ -17,81 +19,82 @@ function selectCategory(value) {
 </script>
 
 <template>
-  <section class="page-shell hao-page">
-    <div class="container hao-page-container">
-      <header class="page-intro">
-        <span class="page-kicker">日常工具</span>
-        <h1 class="page-title">工具构建</h1>
-        <p class="page-description">将高频而琐碎的操作变为快速、清晰、可靠的小工具。</p>
-      </header>
-      <div class="toolbar glass-card">
-        <div class="group-tabs">
-          <button
-            v-for="group in toolCategories"
-            :key="group.value"
-            :class="{ active: activeCategory === group.value }"
-            type="button"
-            @click="selectCategory(group.value)"
-          >
-            {{ group.label }}
-          </button>
+  <section class="page-shell hao-page editorial-channel-page">
+    <div class="container hao-page-container hao-channel-container">
+      <InnerPageHeader
+        kicker="TOOL NOTES"
+        title="工具构建"
+        description="把开发与数据处理中反复发生的小问题，整理成能够随手使用的轻量工具。"
+      >
+        <CategoryTabs
+          :items="toolCategories"
+          :active-value="activeCategory"
+          label="工具分类"
+          @select="selectCategory"
+        />
+      </InnerPageHeader>
+
+      <section class="tool-directory">
+        <header class="hao-channel-section-header">
+          <h2>{{ activeCategory ? '分类工具' : '全部工具' }}</h2>
+          <span>{{ visibleTools.length }} 项工具</span>
+        </header>
+        <div class="tool-directory-grid">
+          <TextToolCard v-for="tool in visibleTools" :key="tool.name" :tool="tool" />
         </div>
-        <el-input class="search" placeholder="搜索工具（功能预留）" />
-      </div>
-      <div class="grid grid--three">
-        <ToolCard v-for="tool in visibleTools" :key="tool.name" :tool="tool" />
-      </div>
+      </section>
+
+      <aside class="tools-note">
+        <span>说明</span>
+        <p>当前仅展示工具目录与入口，后续可逐项接入交互实现和数据服务。</p>
+      </aside>
     </div>
   </section>
 </template>
 
 <style scoped>
-.toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 30px;
-  margin-bottom: 28px;
-  padding: 15px 19px;
+.tool-directory-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: clamp(30px, 4vw, 54px);
 }
 
-.group-tabs {
+.tools-note {
   display: flex;
-  flex-wrap: wrap;
-  gap: 25px;
+  gap: 22px;
+  margin-top: clamp(58px, 7vw, 82px);
+  padding-top: 23px;
+  border-top: 1px solid var(--border-color);
+}
+
+.tools-note span {
+  flex: none;
   color: var(--ls-text-muted);
-  font-size: 14px;
+  font-size: 12px;
+  letter-spacing: 0.13em;
 }
 
-.group-tabs button {
-  border: 0;
-  padding: 4px 0;
-  color: inherit;
-  background: transparent;
-  cursor: pointer;
+.tools-note p {
+  max-width: 590px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.8;
 }
 
-.group-tabs .active {
-  color: var(--ls-primary-soft);
+@media (max-width: 920px) {
+  .tool-directory-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
-.search {
-  width: 240px;
-}
-
-.search :deep(.el-input__wrapper) {
-  background: var(--input-bg);
-  box-shadow: 0 0 0 1px var(--ls-border) inset;
-}
-
-@media (max-width: 700px) {
-  .toolbar {
-    align-items: stretch;
-    flex-direction: column;
+@media (max-width: 680px) {
+  .tool-directory-grid {
+    grid-template-columns: 1fr;
   }
 
-  .search {
-    width: 100%;
+  .tools-note {
+    flex-direction: column;
+    gap: 10px;
   }
 }
 </style>
