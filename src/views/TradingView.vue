@@ -9,8 +9,13 @@ import { tradingTools } from '@/data/tools'
 const route = useRoute()
 const router = useRouter()
 const activeCategory = computed(() => String(route.query.category || ''))
+const showMacroEntry = computed(() => !activeCategory.value || activeCategory.value === 'macro-map')
+const showArticles = computed(() =>
+  !activeCategory.value || !['macro-map', 'trading-tools'].includes(activeCategory.value)
+)
+const showTools = computed(() => !activeCategory.value || activeCategory.value === 'trading-tools')
 const visibleArticles = computed(() => {
-  if (!activeCategory.value || activeCategory.value === 'trading-tools' || activeCategory.value === 'macro-map') {
+  if (!activeCategory.value) {
     return tradingArticles
   }
   return tradingArticles.filter((article) => article.categoryKey === activeCategory.value)
@@ -40,7 +45,15 @@ function selectCategory(value) {
           {{ category.label }}
         </button>
       </div>
-      <div class="trading-layout">
+      <router-link v-if="showMacroEntry" class="macro-entry glass-card" to="/macro">
+        <div>
+          <span class="page-kicker">全球趋势</span>
+          <h2>宏观地图</h2>
+          <p>观察全球通胀、失业、GDP 与利率分布，为市场研究保留更长的时间尺度。</p>
+        </div>
+        <span class="macro-action">查看地图 &gt;</span>
+      </router-link>
+      <div v-if="showArticles" class="trading-layout">
         <div>
           <div class="subsection-title">
             <span class="page-kicker">研究文章</span>
@@ -59,7 +72,7 @@ function selectCategory(value) {
           <p>复盘结论与改进</p>
         </aside>
       </div>
-      <section class="trading-tools">
+      <section v-if="showTools" class="trading-tools" :class="{ 'is-primary': activeCategory === 'trading-tools' }">
         <header class="trading-tools-heading">
           <span class="page-kicker">交易工具</span>
           <h2>风险与执行辅助</h2>
@@ -100,6 +113,37 @@ function selectCategory(value) {
   grid-template-columns: 1fr 320px;
   align-items: start;
   gap: 24px;
+}
+
+.macro-entry {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 34px;
+  padding: 24px 27px;
+}
+
+.macro-entry .page-kicker {
+  margin-bottom: 5px;
+}
+
+.macro-entry h2 {
+  margin-bottom: 8px;
+  font-size: 23px;
+  font-weight: 400;
+}
+
+.macro-entry p {
+  max-width: 620px;
+  color: var(--ls-text-secondary);
+  font-size: 14px;
+}
+
+.macro-action {
+  flex: none;
+  color: var(--ls-text-secondary);
+  font-size: 14px;
 }
 
 .entries {
@@ -144,6 +188,10 @@ function selectCategory(value) {
   margin-top: 52px;
 }
 
+.trading-tools.is-primary {
+  margin-top: 0;
+}
+
 .trading-tools-heading {
   margin-bottom: 22px;
 }
@@ -154,6 +202,11 @@ function selectCategory(value) {
 }
 
 @media (max-width: 820px) {
+  .macro-entry {
+    align-items: start;
+    flex-direction: column;
+  }
+
   .trading-layout {
     grid-template-columns: 1fr;
   }

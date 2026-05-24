@@ -1,9 +1,11 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import WorldHeatMap from '@/components/macro/WorldHeatMap.vue'
+import { useTheme } from '@/composables/useTheme'
 import { macroMetricMock, macroMetricTabs } from '@/data/macroMock'
 import { fetchMacroMetric } from '@/services/macro'
 
+const { isNight } = useTheme()
 const activeKey = ref('inflation')
 const activeMetric = ref(macroMetricMock.inflation)
 const loading = ref(false)
@@ -31,6 +33,7 @@ watch(activeKey, loadMetric, { immediate: true })
     <div class="container hao-page-container">
       <header class="page-intro">
         <span class="page-kicker">全球趋势</span>
+        <h1 class="page-title">宏观地图</h1>
         <p class="page-description">
           以全球热图观察宏观指标的地域分布。当前为 mock 数据，数据请求层已预留后端接口切换位置。
         </p>
@@ -61,7 +64,7 @@ watch(activeKey, loadMetric, { immediate: true })
               <span class="chip">{{ loading ? '加载中' : 'Mock Data' }}</span>
             </div>
           </header>
-          <WorldHeatMap :metric="activeMetric" />
+          <WorldHeatMap :metric="activeMetric" :scheme="isNight ? 'night' : 'day'" />
         </section>
 
         <aside class="ranking-card glass-card">
@@ -104,7 +107,7 @@ watch(activeKey, loadMetric, { immediate: true })
   border: 1px solid transparent;
   border-radius: 12px;
   color: var(--ls-text-secondary);
-  background: rgba(12, 18, 24, 0.54);
+  background: var(--muted-bg);
   backdrop-filter: blur(12px);
   cursor: pointer;
   transition: all 0.22s ease;
@@ -118,9 +121,9 @@ watch(activeKey, loadMetric, { immediate: true })
 
 .metric-tabs button:hover,
 .metric-tabs .active {
-  border-color: rgba(213, 219, 222, 0.18);
+  border-color: var(--border-color-strong);
   color: var(--ls-text);
-  background: rgba(30, 37, 43, 0.64);
+  background: var(--active-bg);
 }
 
 .metric-tabs .active small {
@@ -137,7 +140,7 @@ watch(activeKey, loadMetric, { immediate: true })
 .map-card {
   overflow: hidden;
   padding: 28px 27px 12px;
-  background: rgba(8, 13, 19, 0.72);
+  background: var(--card-bg);
 }
 
 .map-heading {
@@ -165,7 +168,7 @@ watch(activeKey, loadMetric, { immediate: true })
 
 .ranking-card {
   padding: 28px 23px 20px;
-  background: rgba(10, 15, 21, 0.68);
+  background: var(--card-bg);
 }
 
 .ranking-card header {

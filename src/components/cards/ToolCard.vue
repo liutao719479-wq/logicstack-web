@@ -10,7 +10,7 @@ defineProps({ tool: { type: Object, required: true } })
     </div>
     <h3>{{ tool.name }}</h3>
     <p>{{ tool.description }}</p>
-    <button type="button" class="launch">即将开放</button>
+    <button type="button" class="launch">进入工具 <span>&gt;</span></button>
   </article>
 </template>
 
@@ -46,10 +46,15 @@ p {
 }
 
 .launch {
-  border: 0;
-  padding: 0;
-  color: var(--ls-text-muted);
-  background: transparent;
+  border: 1px solid var(--ls-border);
+  border-radius: 999px;
+  padding: 6px 13px;
+  color: var(--ls-text-secondary);
+  background: var(--muted-bg);
   font-size: 13px;
+}
+
+.launch span {
+  margin-left: 5px;
 }
 </style>

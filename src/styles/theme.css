@@ -1,4 +1,16 @@
 :root {
+  --page-bg: #030303;
+  --card-bg: #080808;
+  --card-bg-hover: #101010;
+  --text-primary: #edf0ef;
+  --text-secondary: #a6afb1;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-color-strong: rgba(255, 255, 255, 0.17);
+  --muted-bg: rgba(255, 255, 255, 0.04);
+  --active-bg: rgba(255, 255, 255, 0.08);
+  --input-bg: rgba(255, 255, 255, 0.035);
+  --code-bg: #050608;
+  --code-text: #d8e1e3;
   --ls-bg: #0a1015;
   --ls-bg-soft: #10171d;
   --ls-surface: rgba(18, 26, 32, 0.46);
@@ -32,6 +44,18 @@
 }
 
 :root[data-theme="day"] {
+  --page-bg: #f7f8fb;
+  --card-bg: #ffffff;
+  --card-bg-hover: #ffffff;
+  --text-primary: #20262c;
+  --text-secondary: #59636d;
+  --border-color: rgba(28, 37, 48, 0.1);
+  --border-color-strong: rgba(28, 37, 48, 0.18);
+  --muted-bg: #f1f3f6;
+  --active-bg: #e9edf2;
+  --input-bg: #f4f6f8;
+  --code-bg: #f1f4f8;
+  --code-text: #273748;
   --ls-bg: #f2f1ed;
   --ls-bg-soft: #ebe9e3;
   --ls-surface: rgba(255, 255, 255, 0.48);

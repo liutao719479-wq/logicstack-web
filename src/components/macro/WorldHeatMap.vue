@@ -34,6 +34,7 @@ function setOptions() {
   const { data, label, note, scale, title, unit, year } = props.metric
   const isHomeTrend = props.variant === 'home-trend'
   const isHomeTrendNight = isHomeTrend && props.scheme === 'night'
+  const isDay = props.scheme === 'day'
   const metricLabel = isHomeTrend ? title.replace('热图', '') : label
   const mapData = isHomeTrend
     ? data.flatMap((country) => [
@@ -48,18 +49,23 @@ function setOptions() {
   const homeTrendColors = isHomeTrendNight
     ? ['#1d1740', '#382483', '#5330b7', '#794dc9', '#bba8ee']
     : ['#eeeaf8', '#d3c7ed', '#ad93dc', '#8061c6', '#4c2ba3']
+  const macroColors = isDay
+    ? ['#edf1f4', '#c5d3d6', '#93afb1', '#557b81', '#304c54']
+    : ['#1a272e', '#405c63', '#718785', '#aa906d', '#ab665b']
 
   chart.setOption({
     backgroundColor: 'transparent',
     tooltip: {
       show: true,
       trigger: 'item',
-      backgroundColor: isHomeTrendNight ? '#111016' : '#171e23',
+      backgroundColor: isHomeTrend
+        ? (isHomeTrendNight ? '#111016' : '#171e23')
+        : (isDay ? '#ffffff' : '#111016'),
       borderColor: isHomeTrend
         ? 'rgba(155, 120, 230, 0.24)'
         : 'rgba(206, 214, 217, 0.14)',
       padding: [12, 15],
-      textStyle: { color: '#edf0ef', fontSize: 13 },
+      textStyle: { color: isHomeTrend || !isDay ? '#edf0ef' : '#27313a', fontSize: 13 },
       formatter(params) {
         const countryName = isHomeTrend
           ? getCountryNameZh(params.name)
@@ -84,11 +90,11 @@ function setOptions() {
       itemHeight: 7,
       text: [`${scale.max}${unit}`, `${scale.min}${unit}`],
       textGap: 10,
-      textStyle: { color: '#727d80', fontSize: 11 },
+      textStyle: { color: isDay ? '#67717a' : '#727d80', fontSize: 11 },
       inRange: {
         color: isHomeTrend
           ? homeTrendColors
-          : ['#1a272e', '#405c63', '#718785', '#aa906d', '#ab665b']
+          : macroColors
       }
     },
     series: [
@@ -111,15 +117,15 @@ function setOptions() {
         emphasis: {
           label: { show: false },
           itemStyle: {
-            areaColor: isHomeTrend ? homeTrendColors[3] : '#a9bbb8',
-            borderColor: isHomeTrendNight ? '#141020' : '#ffffff',
+            areaColor: isHomeTrend ? homeTrendColors[3] : (isDay ? '#7f9fa3' : '#a9bbb8'),
+            borderColor: isHomeTrendNight || !isDay ? '#141020' : '#ffffff',
             borderWidth: 1
           }
         },
         select: { disabled: true },
         itemStyle: {
-          areaColor: isHomeTrend ? homeTrendColors[0] : '#162128',
-          borderColor: isHomeTrendNight ? '#07060d' : '#ffffff',
+          areaColor: isHomeTrend ? homeTrendColors[0] : (isDay ? '#edf1f4' : '#162128'),
+          borderColor: isHomeTrendNight || !isDay ? '#07060d' : '#ffffff',
           borderWidth: 0.65
         }
       }

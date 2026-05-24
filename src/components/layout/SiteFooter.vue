@@ -13,7 +13,7 @@ const footerLinks = [
     <div class="footer-inner container">
       <div>
         <router-link class="footer-brand" to="/">LogicStack</router-link>
-        <p class="footer-note">记录数据工程、交易系统与宏观数据可视化的实践过程。</p>
+        <p class="footer-note">记录数据工程、AI 工程、市场研究与工具构建的实践过程。</p>
       </div>
       <div class="footer-nav">
         <router-link v-for="link in footerLinks" :key="link.to" :to="link.to">
@@ -29,7 +29,7 @@ const footerLinks = [
 .site-footer {
   border-top: 1px solid var(--ls-border);
   padding: 46px 0 24px;
-  background: #090f14;
+  background: var(--page-bg);
 }
 
 .footer-inner {
