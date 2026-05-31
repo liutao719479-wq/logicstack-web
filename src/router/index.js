@@ -32,6 +32,12 @@ const routes = [
     meta: { title: '工具构建' }
   },
   {
+    path: '/trading/agent-lab',
+    name: 'trading-agent-lab',
+    component: () => import('@/views/TradingAgentLabView.vue'),
+    meta: { title: '交易 Agent 实验室' }
+  },
+  {
     path: '/trading',
     name: 'trading',
     component: () => import('@/views/TradingView.vue'),

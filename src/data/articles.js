@@ -18,7 +18,7 @@ export const aiCategories = [
 export const tradingCategories = [
   { label: '全部', value: '' },
   { label: '宏观地图', value: 'macro-map' },
-  { label: '指标策略', value: 'strategy' },
+  { label: '交易观点', value: 'strategy' },
   { label: 'Order Flow', value: 'order-flow' },
   { label: '交易复盘', value: 'review' },
   { label: '风控', value: 'risk' },

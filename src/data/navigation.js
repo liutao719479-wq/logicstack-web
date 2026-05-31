@@ -33,7 +33,8 @@ export const navItems = [
       { label: 'Order Flow', to: '/trading?category=order-flow' },
       { label: '交易复盘', to: '/trading?category=review' },
       { label: '风控', to: '/trading?category=risk' },
-      { label: '交易工具', to: '/trading?category=trading-tools' }
+      { label: '交易工具', to: '/trading?category=trading-tools' },
+      { label: '交易 Agent 实验室', to: '/trading/agent-lab' }
     ]
   },
   {

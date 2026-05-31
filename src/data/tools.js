@@ -20,24 +20,45 @@ export const tools = [
 
 export const tradingTools = [
   {
-    name: 'XAUUSD 仓位计算器',
+    name: '仓位计算',
     type: '交易工具',
     category: 'trading-tools',
     description: '按止损距离与账户风险额度计算交易手数。',
     status: '规划中'
   },
   {
-    name: '盈亏比计算器',
+    name: 'R 倍数计算',
     type: '交易工具',
     category: 'trading-tools',
     description: '快速评估止损、止盈与计划的风险回报。',
     status: '规划中'
   },
   {
-    name: 'FTMO / Topstep 风控计算器',
+    name: '最大亏损控制',
     type: '交易工具',
     category: 'trading-tools',
     description: '根据账户限制规划风险预算与容错空间。',
+    status: '规划中'
+  },
+  {
+    name: '交易复盘模板',
+    type: '交易工具',
+    category: 'trading-tools',
+    description: '记录计划、执行、截图与偏离规则的关键节点。',
+    status: '规划中'
+  },
+  {
+    name: '交易计划模板',
+    type: '交易工具',
+    category: 'trading-tools',
+    description: '在入场前明确条件、失效位置与单笔风险。',
+    status: '规划中'
+  },
+  {
+    name: 'Order Flow 观察清单',
+    type: '交易工具',
+    category: 'trading-tools',
+    description: '整理位置、吸收、失衡与信号失效的观察顺序。',
     status: '规划中'
   }
 ]

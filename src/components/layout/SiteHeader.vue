@@ -1,9 +1,11 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { useTheme } from '@/composables/useTheme'
 import { navItems } from '@/data/navigation'
 
 const { toggleTheme } = useTheme()
+const route = useRoute()
 const scrolled = ref(false)
 const menuVisible = ref(false)
 
@@ -13,6 +15,10 @@ function updateScrollState() {
 
 function closeMenu() {
   menuVisible.value = false
+}
+
+function isPrimaryNavActive(item) {
+  return item.to === '/trading' && route.path.startsWith('/trading/')
 }
 
 onMounted(() => {
@@ -39,7 +45,9 @@ onBeforeUnmount(() => window.removeEventListener('scroll', updateScrollState))
         <div id="menus">
           <div class="menus_items">
             <div v-for="item in navItems" :key="item.to" class="menus_item">
-              <router-link class="site-page" :to="item.to">{{ item.label }}</router-link>
+              <router-link class="site-page" :class="{ 'router-link-active': isPrimaryNavActive(item) }" :to="item.to">
+                {{ item.label }}
+              </router-link>
               <ul v-if="item.children?.length" class="menus_item_child vertical_nav hao-nav-dropdown">
                 <li v-for="child in item.children" :key="child.to" class="recursion_menus_item">
                   <router-link class="site-page child" :to="child.to">{{ child.label }}</router-link>
