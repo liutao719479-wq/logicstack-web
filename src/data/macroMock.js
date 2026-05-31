@@ -1,125 +1,509 @@
+import { getCountryNameZh } from '@/data/countryNameMap'
+
+export const macroCategoryTabs = [
+  '通货膨胀',
+  '就业',
+  '消费',
+  '商业和工业生产',
+  '政府债务和预算',
+  '经济增长',
+  '银行和金融系统',
+  '房地产和住房',
+  '贸易和资本流动'
+]
+
 export const macroMetricTabs = [
   { key: 'inflation', label: '通胀率', code: 'CPI' },
   { key: 'unemployment', label: '失业率', code: 'UNEMP' },
-  { key: 'gdp', label: 'GDP', code: 'GDP' },
-  { key: 'rate', label: '利率', code: 'RATE' }
+  { key: 'industry', label: '工业活动', code: 'IND' },
+  { key: 'debt', label: '政府债务', code: 'DEBT' },
+  { key: 'gdp', label: 'GDP 增长', code: 'GDP' },
+  { key: 'rate', label: '基准利率', code: 'RATE' }
 ]
 
-import { getCountryNameZh } from '@/data/countryNameMap'
+const countryFlags = {
+  Argentina: '🇦🇷',
+  Australia: '🇦🇺',
+  Brazil: '🇧🇷',
+  Canada: '🇨🇦',
+  China: '🇨🇳',
+  France: '🇫🇷',
+  Germany: '🇩🇪',
+  India: '🇮🇳',
+  Indonesia: '🇮🇩',
+  Italy: '🇮🇹',
+  Japan: '🇯🇵',
+  Korea: '🇰🇷',
+  Mexico: '🇲🇽',
+  Russia: '🇷🇺',
+  'Saudi Arabia': '🇸🇦',
+  'South Africa': '🇿🇦',
+  Turkey: '🇹🇷',
+  'United Kingdom': '🇬🇧',
+  'United States': '🇺🇸'
+}
+
+const countryCodes = {
+  Afghanistan: ['AF', 'AFG'],
+  Aland: ['AX', 'ALA'],
+  'Antigua and Barb.': ['AG', 'ATG'],
+  Argentina: ['AR', 'ARG'],
+  Austria: ['AT', 'AUT'],
+  Bahamas: ['BS', 'BHS'],
+  Belarus: ['BY', 'BLR'],
+  Belgium: ['BE', 'BEL'],
+  Benin: ['BJ', 'BEN'],
+  Botswana: ['BW', 'BWA'],
+  Burundi: ['BI', 'BDI'],
+  'Central African Rep.': ['CF', 'CAF'],
+  Colombia: ['CO', 'COL'],
+  Congo: ['CG', 'COG'],
+  Croatia: ['HR', 'HRV'],
+  'Curaçao': ['CW', 'CUW'],
+  Cyprus: ['CY', 'CYP'],
+  'Czech Rep.': ['CZ', 'CZE'],
+  'Dem. Rep. Korea': ['KP', 'PRK'],
+  Ecuador: ['EC', 'ECU'],
+  'Eq. Guinea': ['GQ', 'GNQ'],
+  Estonia: ['EE', 'EST'],
+  Ethiopia: ['ET', 'ETH'],
+  'Falkland Is.': ['FK', 'FLK'],
+  'Fr. Polynesia': ['PF', 'PYF'],
+  'Fr. S. Antarctic Lands': ['TF', 'ATF'],
+  Gabon: ['GA', 'GAB'],
+  Ghana: ['GH', 'GHA'],
+  Greece: ['GR', 'GRC'],
+  Grenada: ['GD', 'GRD'],
+  Guinea: ['GN', 'GIN'],
+  Haiti: ['HT', 'HTI'],
+  'Heard I. and McDonald Is.': ['HM', 'HMD'],
+  Honduras: ['HN', 'HND'],
+  Iraq: ['IQ', 'IRQ'],
+  'Isle of Man': ['IM', 'IMN'],
+  Japan: ['JP', 'JPN'],
+  Kenya: ['KE', 'KEN'],
+  Kuwait: ['KW', 'KWT'],
+  Kyrgyzstan: ['KG', 'KGZ'],
+  'Lao PDR': ['LA', 'LAO'],
+  Latvia: ['LV', 'LVA'],
+  Lesotho: ['LS', 'LSO'],
+  Liechtenstein: ['LI', 'LIE'],
+  Luxembourg: ['LU', 'LUX'],
+  Malta: ['MT', 'MLT'],
+  Mauritius: ['MU', 'MUS'],
+  Montserrat: ['MS', 'MSR'],
+  Netherlands: ['NL', 'NLD'],
+  'New Caledonia': ['NC', 'NCL'],
+  Nicaragua: ['NI', 'NIC'],
+  Norway: ['NO', 'NOR'],
+  Palestine: ['PS', 'PSE'],
+  Panama: ['PA', 'PAN'],
+  'Puerto Rico': ['PR', 'PRI'],
+  Russia: ['RU', 'RUS'],
+  'S. Sudan': ['SS', 'SSD'],
+  'Siachen Glacier': ['', 'SIACHEN'],
+  'South Africa': ['ZA', 'ZAF'],
+  Spain: ['ES', 'ESP'],
+  'St. Vin. and Gren.': ['VC', 'VCT'],
+  Sudan: ['SD', 'SDN'],
+  Suriname: ['SR', 'SUR'],
+  Swaziland: ['SZ', 'SWZ'],
+  Sweden: ['SE', 'SWE'],
+  Togo: ['TG', 'TGO'],
+  Turkey: ['TR', 'TUR'],
+  Uganda: ['UG', 'UGA'],
+  Zambia: ['ZM', 'ZMB']
+}
+
+const worldCoverageCountries = [
+  'Somalia', 'Liechtenstein', 'Morocco', 'W. Sahara', 'Serbia', 'Afghanistan', 'Angola', 'Albania',
+  'Aland', 'Andorra', 'United Arab Emirates', 'Argentina', 'Armenia', 'American Samoa',
+  'Fr. S. Antarctic Lands', 'Antigua and Barb.', 'Australia', 'Austria', 'Azerbaijan', 'Burundi',
+  'Belgium', 'Benin', 'Burkina Faso', 'Bangladesh', 'Bulgaria', 'Bahrain', 'Bahamas',
+  'Bosnia and Herz.', 'Belarus', 'Belize', 'Bermuda', 'Bolivia', 'Brazil', 'Barbados', 'Brunei',
+  'Bhutan', 'Botswana', 'Central African Rep.', 'Canada', 'Switzerland', 'Chile', 'China',
+  "Côte d'Ivoire", 'Cameroon', 'Dem. Rep. Congo', 'Congo', 'Colombia', 'Comoros', 'Cape Verde',
+  'Costa Rica', 'Cuba', 'Curaçao', 'Cayman Is.', 'N. Cyprus', 'Cyprus', 'Czech Rep.', 'Germany',
+  'Djibouti', 'Dominica', 'Denmark', 'Dominican Rep.', 'Algeria', 'Ecuador', 'Egypt', 'Eritrea',
+  'Spain', 'Estonia', 'Ethiopia', 'Finland', 'Fiji', 'Falkland Is.', 'France', 'Faeroe Is.',
+  'Micronesia', 'Gabon', 'United Kingdom', 'Georgia', 'Ghana', 'Guinea', 'Gambia', 'Guinea-Bissau',
+  'Eq. Guinea', 'Greece', 'Grenada', 'Greenland', 'Guatemala', 'Guam', 'Guyana',
+  'Heard I. and McDonald Is.', 'Honduras', 'Croatia', 'Haiti', 'Hungary', 'Indonesia',
+  'Isle of Man', 'India', 'Br. Indian Ocean Ter.', 'Ireland', 'Iran', 'Iraq', 'Iceland', 'Israel',
+  'Italy', 'Jamaica', 'Jersey', 'Jordan', 'Japan', 'Siachen Glacier', 'Kazakhstan', 'Kenya',
+  'Kyrgyzstan', 'Cambodia', 'Kiribati', 'Korea', 'Kuwait', 'Lao PDR', 'Lebanon', 'Liberia',
+  'Libya', 'Saint Lucia', 'Sri Lanka', 'Lesotho', 'Lithuania', 'Luxembourg', 'Latvia', 'Moldova',
+  'Madagascar', 'Mexico', 'Macedonia', 'Mali', 'Malta', 'Myanmar', 'Montenegro', 'Mongolia',
+  'N. Mariana Is.', 'Mozambique', 'Mauritania', 'Montserrat', 'Mauritius', 'Malawi', 'Malaysia',
+  'Namibia', 'New Caledonia', 'Niger', 'Nigeria', 'Nicaragua', 'Niue', 'Netherlands', 'Norway',
+  'Nepal', 'New Zealand', 'Oman', 'Pakistan', 'Panama', 'Peru', 'Philippines', 'Palau',
+  'Papua New Guinea', 'Poland', 'Puerto Rico', 'Dem. Rep. Korea', 'Portugal', 'Paraguay',
+  'Palestine', 'Fr. Polynesia', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saudi Arabia', 'Sudan',
+  'S. Sudan', 'Senegal', 'Singapore', 'S. Geo. and S. Sandw. Is.', 'Saint Helena', 'Solomon Is.',
+  'Sierra Leone', 'El Salvador', 'St. Pierre and Miquelon', 'São Tomé and Principe', 'Suriname',
+  'Slovakia', 'Slovenia', 'Sweden', 'Swaziland', 'Seychelles', 'Syria', 'Turks and Caicos Is.',
+  'Chad', 'Togo', 'Thailand', 'Tajikistan', 'Turkmenistan', 'Timor-Leste', 'Tonga',
+  'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Tanzania', 'Uganda', 'Ukraine', 'Uruguay',
+  'United States', 'Uzbekistan', 'St. Vin. and Gren.', 'Venezuela', 'U.S. Virgin Is.', 'Vietnam',
+  'Vanuatu', 'Samoa', 'Yemen', 'South Africa', 'Zambia', 'Zimbabwe'
+]
 
 function asCountryData(values) {
-  return Object.entries(values).map(([name, value]) => ({
-    name,
-    countryName: getCountryNameZh(name),
-    value
+  return Object.entries(values).map(([name, value]) => {
+    const [iso2 = '', code = ''] = countryCodes[name] || []
+
+    return {
+      name,
+      countryName: getCountryNameZh(name),
+      flag: countryFlags[name] || '',
+      iso2,
+      code,
+      value
+    }
+  })
+}
+
+function createCoverageValues(key, legend) {
+  return Object.fromEntries(worldCoverageCountries.map((name) => {
+    const seed = [...`${key}-${name}`].reduce((total, char) => total + char.charCodeAt(0), 0)
+    const ratio = ((seed * 17) % 83 + 8) / 100
+    const value = legend.min + ((legend.max - legend.min) * ratio)
+
+    return [name, Number(value.toFixed(2))]
   }))
 }
 
+function createMetric({ legend, values, ...metric }) {
+  const data = asCountryData(values)
+  const mapData = asCountryData({ ...createCoverageValues(metric.key, legend), ...values })
+
+  return {
+    ...metric,
+    scale: { min: legend.min, max: legend.max },
+    legend,
+    colorStops: legend.stops,
+    data,
+    mapData,
+    countries: mapData
+  }
+}
+
 export const macroMetricMock = {
-  inflation: {
+  inflation: createMetric({
     key: 'inflation',
-    title: '全球通胀率热图',
+    title: '全球通胀率，同比',
+    description: '探索全球通胀趋势并观察不同区域的价格压力变化。',
+    listTitle: 'G20 通胀率',
     label: '通胀率',
     unit: '%',
     year: 2025,
     note: '年度 CPI 同比，示例数据',
-    scale: { min: 0, max: 35 },
-    data: asCountryData({
-      Argentina: 31.5,
-      Turkey: 30.8,
-      Russia: 9.5,
-      India: 4.6,
-      Brazil: 5.1,
-      Mexico: 3.9,
-      'South Africa': 3.2,
-      'United Kingdom': 3.4,
-      'United States': 2.9,
-      Australia: 2.7,
-      Canada: 2.4,
+    legend: {
+      min: 0,
+      max: 35,
+      ticks: [0, 7, 25, 35],
+      stops: [
+        { from: 0, to: 3, color: '#4b2b0b' },
+        { from: 3, to: 7, color: '#87510f' },
+        { from: 7, to: 15, color: '#c97912' },
+        { from: 15, to: 25, color: '#f09a18' },
+        { from: 25, to: 35, color: '#ffd280' }
+      ]
+    },
+    values: {
+      Argentina: 32.4,
+      Turkey: 32.37,
+      Russia: 5.6,
+      Mexico: 4.45,
+      Brazil: 4.39,
+      Australia: 4.2,
+      'South Africa': 4.0,
+      'United States': 3.8,
+      India: 3.48,
+      Italy: 3.2,
+      'United Kingdom': 2.8,
+      Canada: 2.8,
       Germany: 2.3,
-      Italy: 1.8,
       France: 1.5,
       China: 0.6,
       Japan: 3.1
-    })
-  },
-  unemployment: {
+    }
+  }),
+  unemployment: createMetric({
     key: 'unemployment',
-    title: '全球失业率热图',
+    title: '全球失业率',
+    description: '了解世界失业趋势并观察全球劳动力市场变化。',
+    listTitle: 'G20 失业率排名',
     label: '失业率',
     unit: '%',
     year: 2025,
-    note: '指标切换演示数据',
-    scale: { min: 0, max: 12 },
-    data: asCountryData({
-      'South Africa': 11.8,
-      Turkey: 8.7,
-      France: 7.5,
-      Italy: 6.3,
-      Argentina: 6.2,
-      Canada: 6.1,
-      Germany: 5.9,
+    note: '劳动力市场指标，示例数据',
+    legend: {
+      min: 0,
+      max: 25,
+      ticks: [0, 5, 10, 15, 25],
+      stops: [
+        { from: 0, to: 3, color: '#35239a' },
+        { from: 3, to: 5, color: '#4a2ca9' },
+        { from: 5, to: 7, color: '#603bb5' },
+        { from: 7, to: 10, color: '#7956c2' },
+        { from: 10, to: 13, color: '#9879d0' },
+        { from: 13, to: 25, color: '#c0abe2' }
+      ]
+    },
+    values: {
+      Afghanistan: 13.3,
+      Albania: 10.8,
+      Algeria: 11.6,
+      Angola: 14.1,
+      'South Africa': 24.7,
+      Austria: 5.6,
+      Azerbaijan: 5.9,
+      Bangladesh: 4.5,
+      Belarus: 3.2,
+      Belgium: 5.9,
+      Benin: 2.3,
+      Bolivia: 5.4,
+      Botswana: 24.4,
+      Bulgaria: 4.0,
+      Cambodia: 0.4,
+      Cameroon: 3.8,
+      Chad: 5.1,
+      Chile: 8.6,
+      Colombia: 9.8,
+      Croatia: 4.6,
+      Cyprus: 4.9,
+      Denmark: 2.9,
+      Ecuador: 3.8,
+      Egypt: 6.4,
+      Estonia: 7.4,
+      Ethiopia: 3.4,
+      Finland: 9.1,
+      France: 8.1,
+      Georgia: 13.9,
+      Turkey: 8.1,
+      Argentina: 7.5,
+      Canada: 6.9,
+      Germany: 6.3,
+      Ghana: 3.1,
+      Greece: 8.9,
+      Hungary: 4.4,
+      Iceland: 3.8,
       Brazil: 5.8,
-      China: 5.1,
-      India: 4.8,
+      China: 5.2,
+      India: 5.2,
+      Iran: 7.8,
+      Iraq: 15.5,
+      Ireland: 4.2,
+      Israel: 3.0,
+      Italy: 5.1,
+      Japan: 2.5,
+      Kazakhstan: 4.6,
+      Kenya: 5.4,
+      Korea: 2.9,
+      Latvia: 6.8,
+      Lithuania: 7.0,
+      Malaysia: 3.1,
+      Mexico: 2.7,
+      Moldova: 4.0,
+      Mongolia: 5.4,
+      Morocco: 13.3,
+      Mozambique: 3.5,
+      Namibia: 19.1,
+      Netherlands: 3.8,
+      'New Zealand': 5.1,
+      Nigeria: 4.6,
+      Norway: 4.1,
+      Pakistan: 5.5,
+      Paraguay: 5.9,
+      Peru: 6.4,
+      Philippines: 4.0,
+      Poland: 3.0,
+      Portugal: 6.4,
+      Romania: 5.6,
+      Russia: 2.4,
+      'Saudi Arabia': 3.2,
+      Serbia: 8.6,
+      Slovakia: 5.3,
+      Slovenia: 3.5,
+      Spain: 10.5,
+      Sweden: 8.7,
+      Switzerland: 4.3,
+      Tanzania: 8.9,
+      Thailand: 1.0,
+      Tunisia: 15.7,
+      Ukraine: 14.2,
+      'United Arab Emirates': 2.1,
+      'United Kingdom': 5.0,
+      Indonesia: 4.68,
       Australia: 4.3,
-      'United Kingdom': 4.2,
       'United States': 4.1,
-      Russia: 2.5,
-      Japan: 2.4
-    })
-  },
-  gdp: {
+      Uruguay: 7.8,
+      Uzbekistan: 6.8,
+      Venezuela: 5.5,
+      Vietnam: 2.2,
+      Zambia: 6.1,
+      Zimbabwe: 9.3
+    }
+  }),
+  industry: createMetric({
+    key: 'industry',
+    title: '全球工业活动，同比',
+    description: '通过工业生产变化观察制造业活动与区域经济动能。',
+    listTitle: 'G20 工业活动领导者',
+    label: '工业活动',
+    unit: '%',
+    year: 2025,
+    note: '工业生产同比，示例数据',
+    legend: {
+      min: -5,
+      max: 20,
+      ticks: [-5, 0, 5, 10, 20],
+      stops: [
+        { from: -5, to: -1, color: '#0c244c' },
+        { from: -1, to: 1, color: '#123d7a' },
+        { from: 1, to: 5, color: '#1859a8' },
+        { from: 5, to: 10, color: '#277fd6' },
+        { from: 10, to: 20, color: '#9cccf4' }
+      ]
+    },
+    values: {
+      Argentina: 5.0,
+      Brazil: 4.3,
+      China: 4.1,
+      India: 4.1,
+      Australia: 2.7,
+      Indonesia: 2.63,
+      Japan: 2.3,
+      Russia: 1.9,
+      Italy: 1.5,
+      Korea: 1.5,
+      'United States': 1.4,
+      France: 0.9,
+      Mexico: 0.8,
+      Canada: 0.5,
+      Germany: -1.3,
+      'United Kingdom': -1.6
+    }
+  }),
+  debt: createMetric({
+    key: 'debt',
+    title: '政府债务对 GDP 占比',
+    description: '比较世界各地的政府债务与 GDP 比率。',
+    listTitle: 'G20 按政府债务占 GDP 的排名',
+    label: '政府债务占比',
+    unit: '%',
+    year: 2025,
+    note: '政府债务占 GDP，示例数据',
+    legend: {
+      min: 0,
+      max: 250,
+      ticks: [0, 60, 140, 250],
+      stops: [
+        { from: 0, to: 60, color: '#671247' },
+        { from: 60, to: 100, color: '#9b145e' },
+        { from: 100, to: 140, color: '#d21c72' },
+        { from: 140, to: 200, color: '#eb5b9c' },
+        { from: 200, to: 250, color: '#f6a1c7' }
+      ]
+    },
+    values: {
+      Japan: 248.7,
+      Italy: 137.1,
+      'United States': 123.3,
+      France: 115.6,
+      Canada: 113.5,
+      China: 99.2,
+      'United Kingdom': 94.3,
+      India: 81.92,
+      'South Africa': 78.9,
+      Brazil: 78.64,
+      Argentina: 78.4,
+      Germany: 63.5,
+      Mexico: 49.2,
+      Australia: 46.1,
+      Turkey: 26.4,
+      Russia: 20.3
+    }
+  }),
+  gdp: createMetric({
     key: 'gdp',
-    title: '全球 GDP 增长热图',
+    title: 'GDP 增长，同比',
+    description: '检查全球 GDP 增长趋势并观察市场变化。',
+    listTitle: 'G20 GDP 增长最快国家',
     label: 'GDP 增速',
     unit: '%',
     year: 2025,
-    note: '年度实际增速，示例数据',
-    scale: { min: -1, max: 7 },
-    data: asCountryData({
-      India: 6.6,
-      China: 4.8,
-      Turkey: 3.2,
-      Argentina: 3.1,
-      Russia: 2.4,
-      Brazil: 2.3,
-      'United States': 2.1,
-      Australia: 1.9,
+    note: '实际 GDP 同比，示例数据',
+    legend: {
+      min: -3,
+      max: 12,
+      ticks: [-3, 0, 5, 12],
+      stops: [
+        { from: -3, to: 1, color: '#00606d' },
+        { from: 1, to: 3, color: '#008494' },
+        { from: 3, to: 5, color: '#00a6b9' },
+        { from: 5, to: 7, color: '#36bfd0' },
+        { from: 7, to: 12, color: '#a7e3e9' }
+      ]
+    },
+    values: {
+      India: 7.8,
+      Indonesia: 5.61,
+      China: 5.0,
+      Korea: 3.6,
+      Turkey: 3.4,
+      'Saudi Arabia': 2.8,
+      'United States': 2.7,
+      Australia: 2.6,
+      Argentina: 2.1,
+      Brazil: 1.8,
+      'United Kingdom': 1.1,
+      France: 0.9,
       Canada: 1.7,
-      Spain: 2.5,
-      France: 1.1,
-      'United Kingdom': 1.0,
       Italy: 0.8,
       Germany: 0.4,
       Japan: 0.6
-    })
-  },
-  rate: {
+    }
+  }),
+  rate: createMetric({
     key: 'rate',
-    title: '全球政策利率热图',
-    label: '政策利率',
+    title: '基准利率',
+    description: '比较各大央行的当前利率与全球资金成本分布。',
+    listTitle: 'G20 基准利率',
+    label: '基准利率',
     unit: '%',
     year: 2025,
     note: '期末政策利率，示例数据',
-    scale: { min: 0, max: 30 },
-    data: asCountryData({
-      Turkey: 29.0,
-      Argentina: 24.0,
-      Russia: 18.0,
-      Brazil: 13.75,
-      Mexico: 8.5,
-      'South Africa': 7.25,
-      India: 6.0,
-      'United States': 4.25,
-      'United Kingdom': 4.0,
+    legend: {
+      min: 0,
+      max: 40,
+      ticks: [0, 7, 20, 40],
+      stops: [
+        { from: 0, to: 3, color: '#06472e' },
+        { from: 3, to: 7, color: '#086c43' },
+        { from: 7, to: 15, color: '#0b9257' },
+        { from: 15, to: 25, color: '#3bb978' },
+        { from: 25, to: 40, color: '#9ad9b4' }
+      ]
+    },
+    values: {
+      Turkey: 37.0,
+      Argentina: 29.0,
+      Brazil: 14.5,
+      Russia: 14.5,
+      'South Africa': 7.0,
+      Mexico: 6.5,
+      India: 5.25,
+      Indonesia: 5.25,
+      Australia: 4.35,
+      'Saudi Arabia': 4.25,
+      'United States': 3.75,
+      'United Kingdom': 3.75,
       Canada: 2.75,
-      Australia: 3.6,
       China: 1.5,
       Germany: 2.0,
-      France: 2.0,
-      Italy: 2.0,
       Japan: 0.5
-    })
-  }
+    }
+  })
 }
