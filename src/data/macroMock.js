@@ -1,17 +1,5 @@
 import { getCountryNameZh } from '@/data/countryNameMap'
 
-export const macroCategoryTabs = [
-  '通货膨胀',
-  '就业',
-  '消费',
-  '商业和工业生产',
-  '政府债务和预算',
-  '经济增长',
-  '银行和金融系统',
-  '房地产和住房',
-  '贸易和资本流动'
-]
-
 export const macroMetricTabs = [
   { key: 'inflation', label: '通胀率', code: 'CPI' },
   { key: 'unemployment', label: '失业率', code: 'UNEMP' },

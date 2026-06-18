@@ -2,7 +2,7 @@
 import { reactive } from 'vue'
 import WorldHeatMap from '@/components/macro/WorldHeatMap.vue'
 import { useTheme } from '@/composables/useTheme'
-import { macroCategoryTabs, macroMetricMock, macroMetricTabs } from '@/data/macroMock'
+import { macroMetricMock, macroMetricTabs } from '@/data/macroMock'
 
 const { isNight } = useTheme()
 const metrics = macroMetricTabs
@@ -47,10 +47,6 @@ function markFlagFailed(country) {
           用热力图观察全球宏观指标的区域分布。当前页面使用 mock 数据，为后续接入数据服务保留清晰结构。
         </p>
       </header>
-
-      <nav class="category-tabs" aria-label="经济分类">
-        <span v-for="category in macroCategoryTabs" :key="category">{{ category }}</span>
-      </nav>
 
       <nav class="metric-tabs" aria-label="全球趋势指标导航">
         <a v-for="tab in macroMetricTabs" :key="tab.key" :href="`#metric-${tab.key}`">
@@ -156,21 +152,6 @@ function markFlagFailed(country) {
 .macro-page .page-intro {
   max-width: 780px;
   margin-bottom: 34px;
-}
-
-.category-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 20px;
-  margin-bottom: 22px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.category-tabs span {
-  color: var(--ls-text-muted);
-  font-size: 12px;
-  line-height: 1.7;
 }
 
 .metric-tabs {
@@ -437,10 +418,6 @@ function markFlagFailed(country) {
   .metric-tabs {
     gap: 8px;
     margin-bottom: 42px;
-  }
-
-  .category-tabs {
-    gap: 8px 14px;
   }
 
   .metric-tabs a {
